@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 
-	//utf-8ÀÌ ¾Æ´Ô
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) {
 		String sendMessage = "hello, netty";
@@ -19,7 +18,7 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 		ByteBuf messageBuffer = Unpooled.buffer();
 		messageBuffer.writeBytes(sendMessage.getBytes());
 		
-		log.info("Àü¼ÛÇÑ ¸Ş½ÃÁö  [{}]", sendMessage);
+		log.info("ì „ì†¡í•œ ë¬¸ìì—´ [{}]", sendMessage);
 		ctx.writeAndFlush(messageBuffer);
 	}
 
@@ -27,7 +26,7 @@ public class EchoClientHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) {
 		
 		String readMessage = ((ByteBuf) msg).toString(Charset.defaultCharset());
-		log.info("¼ö½ÅÇÑ ¸Ş½ÃÁö [{}]", readMessage);
+		log.info("ìˆ˜ì‹ í•œ ë¬¸ìì—´ [{}]", readMessage);
 		
 	}
 

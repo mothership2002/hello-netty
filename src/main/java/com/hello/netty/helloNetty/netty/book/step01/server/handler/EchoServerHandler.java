@@ -14,7 +14,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
 		String readMessage = ((ByteBuf) msg).toString(Charset.defaultCharset());
-		log.info("¼ö½ÅÇÑ ¹®ÀÚ¿­ [{}]", readMessage);
+		log.info("ìˆ˜ì‹ ëœ ë©”ì„¸ì§€ [{}]", readMessage);
 		ctx.write(msg);
 	}
 

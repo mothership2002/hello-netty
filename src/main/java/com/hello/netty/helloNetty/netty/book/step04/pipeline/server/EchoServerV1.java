@@ -1,7 +1,6 @@
-package com.hello.netty.helloNetty.netty.book.step01.server;
+package com.hello.netty.helloNetty.netty.book.step04.pipeline.server;
 
-
-import com.hello.netty.helloNetty.netty.book.step01.server.handler.DiscardServerHandler;
+import com.hello.netty.helloNetty.netty.book.step04.pipeline.server.handler.EchoServerV1Handler;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -12,32 +11,26 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 
-public class DiscardServer {
-
+public class EchoServerV1 {
 	public static void main(String[] args) throws Exception {
-		
-		EventLoopGroup bossGroup = new NioEventLoopGroup(1); //스레드 하나
+		EventLoopGroup bossGroup = new NioEventLoopGroup(1);
 		EventLoopGroup workerGroup = new NioEventLoopGroup();
 		try {
-			
 			ServerBootstrap b = new ServerBootstrap();
 			b.group(bossGroup, workerGroup).channel(NioServerSocketChannel.class)
-			.childHandler(new ChannelInitializer<SocketChannel>() {
-				
-				@Override
-				public void initChannel(SocketChannel ch) throws Exception {
-					ChannelPipeline p = ch.pipeline();
-					p.addLast(new DiscardServerHandler());
-				}
-			});
-			
+					.childHandler(new ChannelInitializer<SocketChannel>() {
+						@Override
+						public void initChannel(SocketChannel ch) {
+							ChannelPipeline p = ch.pipeline();
+							p.addLast(new EchoServerV1Handler());
+						}
+					});
+
 			ChannelFuture f = b.bind(8888).sync();
 			f.channel().closeFuture().sync();
-		}
-		finally {
+		} finally {
 			workerGroup.shutdownGracefully();
 			bossGroup.shutdownGracefully();
 		}
 	}
-	
 }
